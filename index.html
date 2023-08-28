@@ -1,0 +1,38 @@
+<meta charset="UTF-8">
+<script>
+/*
+    let myPromise = new Promise((res, rej)=>{
+        setTimeout(() => {
+            const randValue = Math.random()
+            res(randValue)
+        }, 2000)
+    });
+
+    console.log(myPromise)
+
+    myPromise.then((res) => {
+        console.log("myPromise зарезолвился, и я узнал об этом: " + res)
+    })
+
+    myPromise.then((res) => {
+        console.log("myPromise зарезолвился, и я узнал об этом: " + res)})
+*/
+
+
+function doAfter(seconds) {
+        let timeForSetTimeout = seconds * 1000
+        let promise = new Promise((res, rej)=>{
+            setTimeout(()=>{
+                res()
+            }, timeForSetTimeout)
+        })
+    return promise
+}
+
+doAfter(5).then(()=>{console.log(`я сработал через 5 сек`)})
+doAfter(3).then(()=>{console.log(`я сработал через 3 сек`)})
+doAfter(10).then(()=>{console.log(`я сработал через 10 сек`)})
+
+
+
+</script>
