@@ -4,9 +4,15 @@ const api = {
         { count: studentsCount });
     },
     getVacanciesCountFromMicrosoft() {
-        return axios.get("https://microsoft.com");
+        return axios.get("https://microsoft.com")
+            .then((res)=>{
+                return res.data.vacancies
+            });
     },
     getVacanciesCountFromGoogle() {
-        return axios.get("https://google.com");
+        return axios.get("https://google.com")
+            .then((res)=>{
+                return res.data.vacancies
+            });
     }
 }

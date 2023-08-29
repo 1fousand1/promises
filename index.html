@@ -1,6 +1,10 @@
 <meta charset="UTF-8">
+<script src="doAfter.js"></script>
+<script src="doRandomAfter.js"></script>
+<script src="axios.js"></script>
+<script src="api.js"></script>
 <script>
-/*
+    /*
     let myPromise = new Promise((res, rej)=>{
         setTimeout(() => {
             const randValue = Math.random()
@@ -18,21 +22,138 @@
         console.log("myPromise зарезолвился, и я узнал об этом: " + res)})
 */
 
+    /*    doAfter(5).then(()=>{console.log(`я сработал через 5 сек`)})
+        doAfter(3).then(()=>{console.log(`я сработал через 3 сек`)})
+        doAfter(10).then(()=>{console.log(`я сработал через 10 сек`)})*/
 
-function doAfter(seconds) {
-        let timeForSetTimeout = seconds * 1000
-        let promise = new Promise((res, rej)=>{
-            setTimeout(()=>{
-                res()
-            }, timeForSetTimeout)
+    /*    let promise4 = doAfter(3);
+
+        promise4
+            .then((n) => {
+                console.log("pr2: " + n)
+                return n * 1000
+            })
+            .then((n) => {
+                console.log("pr3: " + n)
+                return n * 1000
+            })
+            .then((n) => {
+                console.log("pr4: " + n)
+            })*/
+
+    /*    api.sendStudentsCountToItKamasutra(20)
+            .then(res => {
+                console.log(res);
+                return res
+            }).then(res => {console.log(res.data)});*/
+
+    /*   let msPromise = api.getVacanciesCountFromMicrosoft()
+       let goPromise = api.getVacanciesCountFromGoogle()
+
+       const allPromise = Promise.all([msPromise, goPromise])
+
+       allPromise.then((res) => {
+           let resFromMS = res[0].data.vacancies
+           let resFromGo = res[1].data.vacancies
+           console.log("MAKING REQUEST TO IT-KAMASUTRA")
+           api.sendStudentsCountToItKamasutra(resFromMS + resFromGo)
+               .then(res => {
+                   console.log("from it-kamasutra" + res.data);
+               });
+
+       })*/
+
+    /*
+        let pr1 = api.getVacanciesCountFromGoogle()
+            .then((count) => {
+                console.log(count)
+                return count
+            })
+
+        let pr2 = api.getVacanciesCountFromMicrosoft()
+            .then((count) => {
+                console.log(count)
+                return count
+            })
+
+        Promise.all([pr1, pr2]).then((res) => {
+            let resFromMS = res[0]
+            let resFromGo = res[1]
+            console.log("MAKING REQUEST TO IT-KAMASUTRA")
+            api.sendStudentsCountToItKamasutra(resFromMS + resFromGo)
+                .then(res => {
+                    console.log("from it-kamasutra" + res);
+                });
         })
-    return promise
-}
+    */
 
-doAfter(5).then(()=>{console.log(`я сработал через 5 сек`)})
-doAfter(3).then(()=>{console.log(`я сработал через 3 сек`)})
-doAfter(10).then(()=>{console.log(`я сработал через 10 сек`)})
+    /*    doRandomAfter(1)
+        .then(number => {
+            console.log(number)
+            return number;
+        })
+        .then(number => {
+            return doAfter(5)
+        })
+        .then(number => {
+                return number
+            }
+        )
+        */
 
+
+    /*    function loadVacanciesPromiseV(){
+            let msVacancies;
+            let pr1 = api.getVacanciesCountFromMicrosoft()
+                .then(msCount => {
+                    msVacancies = msCount
+                    console.log(msCount)
+                    return api.getVacanciesCountFromGoogle()
+                }).then(goCount => {
+                    console.log(goCount)
+                    return api.sendStudentsCountToItKamasutra(goCount + msVacancies)
+                }).then(res => {
+                    console.log('from it-kamasutra:', res.data)
+                });
+        }
+        loadVacanciesPromiseV()
+        */
+
+/*    async function loadVacanciesPromiseAsyncAwaitV() {
+        try {
+            let msCount = await api.getVacanciesCountFromMicrosoft();
+            let goCount = await api.getVacanciesCountFromGoogle();
+            let res = await api.sendStudentsCountToItKamasutra(msCount + goCount)
+            console.log('from it-kamasutra: ', res.data)
+        } catch (error){
+            alert(error);
+        }
+
+    }
+
+    loadVacanciesPromiseAsyncAwaitV()*/
+
+
+    async function loadVacanciesPromiseAsyncAwaitParallel() {
+            let msPr =  api.getVacanciesCountFromMicrosoft();
+            let goPr =  api.getVacanciesCountFromGoogle();
+            let msGoResults = await Promise.all([msPr,goPr])
+            let res = await api.sendStudentsCountToItKamasutra(msGoResults[0]+msGoResults[1])
+            console.log('from it-kamasutra: ', res.data)
+
+    }
+
+    loadVacanciesPromiseAsyncAwaitParallel()
 
 
 </script>
+
+
+
+
+
+
+
+
+
+
